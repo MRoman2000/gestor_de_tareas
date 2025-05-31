@@ -12,7 +12,6 @@ public class TareaDTO {
     private List<Integer> etiquetas; //
     private  String color;
 
-
     public String getTitulo() {
         return titulo;
     }
