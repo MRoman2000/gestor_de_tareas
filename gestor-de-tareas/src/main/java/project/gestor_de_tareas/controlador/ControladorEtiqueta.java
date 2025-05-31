@@ -26,22 +26,19 @@ public class ControladorEtiqueta {
     private List<Etiqueta> getEtiquetas() {
         return servicioEtiqueta.listarEtiquetas();
     }
-
     @PostMapping
     private ResponseEntity<Etiqueta> guardarEtiqueta(@RequestBody Etiqueta nuevaEtiqueta) {
         Etiqueta etiqueta = servicioEtiqueta.guardarEtiqueta(nuevaEtiqueta);
         return ResponseEntity.status(HttpStatus.CREATED).body(etiqueta);
     }
-
-        @GetMapping("/{idEtiqueta}/tareas")
-        public ResponseEntity<List<Tarea>> obtenerTareasPorEtiqueta(@PathVariable Integer idEtiqueta) {
-            List<Tarea> tareas = servicioTarea.obtenerTareasPorEtiqueta(idEtiqueta);
-            return ResponseEntity.ok(tareas);
-        }
+    @GetMapping("/{idEtiqueta}/tareas")
+    public ResponseEntity<List<Tarea>> obtenerTareasPorEtiqueta(@PathVariable Integer idEtiqueta) {
+        List<Tarea> tareas = servicioTarea.obtenerTareasPorEtiqueta(idEtiqueta);
+        return ResponseEntity.ok(tareas);
+    }
 
     @DeleteMapping("/{id}")
     private void eliminarEtiquetas(@PathVariable Integer id) {
         servicioEtiqueta.eliminarEtiqueta(id);
     }
-
 }
