@@ -34,6 +34,8 @@ Aplicación web para la **gestión de tareas** con soporte para **etiquetas**, *
 ---
 
 ## 🧠 Vista previa
+![image](https://github.com/user-attachments/assets/5ca6522e-3ffc-4d04-98b5-8958aee44111)
+
 
 ### 🎨 Lista de tareas con etiquetas:
 
