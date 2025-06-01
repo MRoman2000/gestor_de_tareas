@@ -1,7 +1,6 @@
 .home-container {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(to bottom right, #e0d4fc, #cfe7ff);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,29 +15,32 @@
 
 .home-header h1 {
   font-size: 2.5rem;
-  color: #6a0dad;
+  color: #5a2d82; /* morado moderno más suave */
   margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 .home-header p {
   font-size: 1.1rem;
-  color: #444;
+  color: #666666; /* gris más suave y moderno */
 }
 
 .btn-primary {
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: #6a0dad;
+  background-color: #5a2d82; /* morado moderno */
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 12px rgba(90, 45, 130, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: #9e59d3;
+  background-color: #7b4dbf;
+  box-shadow: 0 6px 20px rgba(123, 77, 191, 0.6);
 }
 
 .card-grid {
@@ -50,19 +52,27 @@
 }
 
 .card {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 1.75rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 .card h3 {
-  color: #6a0dad;
-  margin-bottom: 0.5rem;
+  color: #5a2d82; /* mismo morado que título */
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .card p {
-  color: #555;
-  font-size: 0.95rem;
+  color: #666666;
+  font-size: 1rem;
+  line-height: 1.4;
 }

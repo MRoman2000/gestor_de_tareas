@@ -34,6 +34,13 @@
     padding: 0;
 }
 
+.etiqueta-item.seleccionada {
+  background-color: #a76df8;
+  color: #ffffff;
+  font-weight: bold;
+  transform: scale(1.03);
+}
+
 .etiqueta-item {
     list-style: none;
     padding: 0.75rem;
@@ -59,10 +66,11 @@
 }
 
 .lista-tareas-etiqueta {
-   columns: 4 350px;   /* Número de columnas y ancho mínimo */
+      columns: 4 300px;   /* Número de columnas y ancho mínimo */
     list-style: none;
     padding: 40px;
     margin: 0;
+    max-width: 1400px;
     align-items: start;
 }
 
@@ -92,7 +100,8 @@
 
 .etiqueta-item:hover {
     transform: translateY(-7px);
-    background-color: #5e5d5d80;
+    color: #ffffff;
+     background-color: #731fe7;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, background-color 0.3s ease;

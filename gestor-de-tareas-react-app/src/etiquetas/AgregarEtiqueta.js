@@ -4,40 +4,39 @@ import './AgregarEtiqueta.css';
 import { obtenerEtiquetas, crearEtiqueta, asignarEtiquetaATarea } from "../servicio/EtiquetasService";
 function AgregarEtiqueta({ onClose, visible, tarea }) {
     const [formulario, setFormulario] = useState({ nombre: "" });
-    const [etiquetas, setEtiquetas] = useState([]);
-    const {nombre} = formulario;
+   // const [etiquetas, setEtiquetas] = useState([]);
+    const { nombre } = formulario;
 
 
-   useEffect(() => {
+    useEffect(() => {
         cargarEtiquetas();
     }, []);
 
-    
+
     const handleChange = (e) => {
-       setFormulario({ ...formulario, [e.target.name ] : e.target.value });
+        setFormulario({ ...formulario, [e.target.name]: e.target.value });
     };
-    
+
 
     const cargarEtiquetas = async () => {
         try {
-            const res = await obtenerEtiquetas();
-            setEtiquetas(res.data);
+            await obtenerEtiquetas();
+       //     setEtiquetas(res.data);
         } catch (error) {
             console.error("Error al cargar las etiquetas", error);
         }
     };
 
- 
+
     const agregarEtiqueta = async (e) => {
         e.preventDefault();
         try {
             const respuesta = await crearEtiqueta(formulario.nombre);
             const nuevaEtiqueta = respuesta.data;
-    
-            if (tarea) {
-             await asignarEtiquetaATarea(tarea.idTarea, nuevaEtiqueta.idEtiqueta);
-            }
 
+            if (tarea) {
+                await asignarEtiquetaATarea(tarea.idTarea, nuevaEtiqueta.idEtiqueta);
+            }
             setFormulario({ nombre: "" });
             cargarEtiquetas(); // Actualiza la lista
             onClose();
@@ -63,8 +62,8 @@ function AgregarEtiqueta({ onClose, visible, tarea }) {
                             required
                         />
                         <div className='modal-botones'>
-                            <button className="btn-agregar" type="submit">Agregar Etiqueta</button>
                             <button className='cancelar' type="button" onClick={onClose}>Cancelar</button>
+                            <button className="btn-agregar" type="submit">Agregar Etiqueta</button>
                         </div>
                     </form>
                 </div>

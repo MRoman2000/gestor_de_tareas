@@ -12,6 +12,32 @@
   backdrop-filter: blur(4px);
 }
 
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.checkbox-container input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #5ee975; /* Indigo-600 */
+  cursor: pointer;
+}
+
+.checkbox-container label {
+  font-size: 1rem;
+  color: #212529;
+  cursor: pointer;
+}
+
+
 .modal {
   background-color: #e7e7e7;
   padding: 2rem;
@@ -36,8 +62,8 @@
 .modal form select {
   box-sizing: border-box;
   width: 100%;
+  margin: 0.3rem 0;
   padding: 0.5rem;
-  margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 1rem;
@@ -78,20 +104,21 @@
 }
 
 .modal-botones button:first-child {
-  background-color: #f85050;
+  background-color: #7a0000;
   color: white;
 }
 
 .modal-botones button:first-child:hover {
-  background-color: #7a0400;
+  background-color: #e95651;
 }
 
 .modal-botones button:last-child {
-  background-color: #00b12c;
+  background-color: #00d134;
 }
 
 .modal-botones button:last-child:hover {
-  background-color: #1c8601;
+  background-color: #0f4d00;
+  color: white;
 }
 
 /* Animación de entrada */
@@ -100,6 +127,7 @@
     opacity: 0;
     transform: scale(1.5);
   }
+
   to {
     opacity: 1;
     transform: scale(1);

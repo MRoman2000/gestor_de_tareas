@@ -2,62 +2,66 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import './FormularioTareaModal.css'
-
+import { crearTarea, actualizarTarea } from '../servicio/TareaServicio';
 
 function FormularioTareaModal({ visible, onClose, onTareaGuardada, tarea }) {
     const [etiquetasDisponibles, setEtiquetasDisponibles] = useState([]);
 
-    const [formulario, setFormulario] = useState({
+    const [formulario, setFormulario] = useState(() => ({
         titulo: "",
         descripcion: "",
         fechaLimite: "",
         completada: false,
         prioridad: "Media",
         color: "",
-        etiquetas: [] // nuevo campo
-    }, []);
+        etiquetas: []
+    }), []);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormulario({
-            ...formulario,
+        setFormulario((prev) => ({
+            ...prev,
             [name]: type === "checkbox" ? checked : value
-        });
+        }));
     };
 
     useEffect(() => {
-        if (!tarea) {
-            setFormulario({
-                titulo: "",
-                descripcion: "",
-                fechaLimite: "",
-                completada: false,
-                prioridad: "Media",
-                color: "",
-                etiquetas: []
-            });
-        } else {
-            setFormulario({
-                titulo: tarea.titulo || "",
-                descripcion: tarea.descripcion || "",
-                fechaLimite: tarea.fechaLimite || "",
-                completada: tarea.completada || false,
-                prioridad: tarea.prioridad || "Media",
-                color: tarea.color,
-                etiquetas: tarea.etiquetas?.map(e => e.idEtiqueta) || []
-            });
-        }
+        // Cargar etiquetas al montar el componente
+        const cargarEtiquetas = async () => {
+            try {
+                const res = await axios.get("http://localhost:8080/api/etiquetas");
+                setEtiquetasDisponibles(res.data);
+            } catch (error) {
+                console.error("Error al cargar etiquetas:", error);
+            }
+        };
+
+        cargarEtiquetas();
+
+        // Actualizar el formulario cuando cambia la tarea
+        setFormulario({
+            titulo: tarea?.titulo ?? "",
+            descripcion: tarea?.descripcion ?? "",
+            fechaLimite: tarea?.fechaLimite ?? "",
+            completada: tarea?.completada ?? false,
+            prioridad: tarea?.prioridad ?? "Media",
+            color: tarea?.color ?? "",
+            etiquetas: tarea?.etiquetas?.map(e => e.idEtiqueta) ?? []
+        });
+
     }, [tarea]);
+
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (tarea && tarea.idTarea) {
-                await axios.put(`http://localhost:8080/api/tareas/${tarea.idTarea}`, formulario);
+            if (tarea?.idTarea)  {
+                // Actualizar tarea existente
+                await actualizarTarea(tarea.idTarea, formulario);
             } else {
-                // Solo esto basta si el backend ya asigna etiquetas
-                await axios.post("http://localhost:8080/api/tareas", formulario);
+                // Crear nueva tarea
+                await crearTarea(formulario);
             }
             onClose();
             onTareaGuardada();
@@ -77,22 +81,9 @@ function FormularioTareaModal({ visible, onClose, onTareaGuardada, tarea }) {
             prioridad: "Media",
             color: "#ffffff",
             etiquetas: [],
-
         });
     }
 
-    useEffect(() => {
-        const cargarEtiquetas = async () => {
-            try {
-                const res = await axios.get("http://localhost:8080/api/etiquetas");
-                setEtiquetasDisponibles(res.data);
-            } catch (error) {
-                console.error("Error al cargar etiquetas:", error);
-            }
-        };
-
-        cargarEtiquetas();
-    }, []);
 
     if (!visible) return null;
 
@@ -106,11 +97,25 @@ function FormularioTareaModal({ visible, onClose, onTareaGuardada, tarea }) {
                     <label>Fecha limite:</label>
                     <input type="date" name="fechaLimite" value={formulario.fechaLimite} onChange={handleChange} />
                     <label>Prioridad:</label>
+
                     <select name="prioridad" value={formulario.prioridad} onChange={handleChange}>
                         <option value="Alta">Alta</option>
                         <option value="Media">Media</option>
                         <option value="Baja">Baja</option>
                     </select>
+
+                    <label htmlFor="completada">Completada: </label>
+                    <div className="checkbox-container">
+                        <input
+                            type="checkbox"
+                            id="completada"
+                            name="completada"
+                            checked={formulario.completada}
+                            onChange={handleChange}
+                        />
+
+                    </div>
+
                     <div>
                         <label>Color:</label>
                         <input

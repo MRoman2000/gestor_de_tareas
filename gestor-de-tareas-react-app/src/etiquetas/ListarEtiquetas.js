@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import AgregarEtiqueta from './AgregarEtiqueta';
 import './ListarEtiquetas.css';
 import FormularioTareaModal from '../tareas/FormularioTareaModal';
-const API_BASE_URL = 'http://localhost:8080/api'; // Ajusta si tu backend usa otra URL
+import {
+    obtenerEtiquetas, obtenerTareasPorEtiqueta, eliminarEtiquetaApi
+} from "../servicio/EtiquetasService";
 
 function ListarEtiquetas() {
     const [etiquetas, setEtiquetas] = useState([]);
@@ -12,10 +14,15 @@ function ListarEtiquetas() {
     const [tareasPorEtiqueta, setTareasPorEtiqueta] = useState([]);
     const [modalTarea, setModalTarea] = useState({ tarea: null, visible: false });
 
+
+    useEffect(() => {
+        cargarEtiquetas();
+    }, []);
+
     const cargarEtiquetas = async () => {
         try {
-            const res = await axios.get(`${API_BASE_URL}/etiquetas`);
-            setEtiquetas(res.data);
+            const data = await obtenerEtiquetas();
+            setEtiquetas(data);
         } catch (error) {
             console.error("Error al cargar etiquetas", error);
         }
@@ -23,8 +30,8 @@ function ListarEtiquetas() {
 
     const cargarEtiquetasPorTarea = async (idEtiqueta) => {
         try {
-            const res = await axios.get(`${API_BASE_URL}/etiquetas/${idEtiqueta}/tareas`);
-            setTareasPorEtiqueta(res.data);
+            const data = await obtenerTareasPorEtiqueta(idEtiqueta);
+            setTareasPorEtiqueta(data);
             setEtiquetaSeleccionada(idEtiqueta);
         } catch (error) {
             console.error("Error al cargar tareas por etiqueta", error);
@@ -33,7 +40,7 @@ function ListarEtiquetas() {
 
     const eliminarEtiqueta = async (idEtiqueta) => {
         try {
-            await axios.delete(`${API_BASE_URL}/etiquetas/${idEtiqueta}`);
+            await eliminarEtiquetaApi(idEtiqueta);
             if (etiquetaSeleccionada === idEtiqueta) {
                 setEtiquetaSeleccionada(null);
                 setTareasPorEtiqueta([]);
@@ -46,9 +53,7 @@ function ListarEtiquetas() {
 
     const cerrarModalEtiqueta = () => setModalEtiqueta({ tarea: null, visible: false });
     const cerrarModal = () => setModalTarea({ tarea: null, visible: false });
-    useEffect(() => {
-        cargarEtiquetas();
-    }, []);
+
 
     return (
         <div className="container-etiquetas">
@@ -59,9 +64,13 @@ function ListarEtiquetas() {
                     {etiquetas.map(etiqueta => (
                         <li
                             key={etiqueta.idEtiqueta}
-                            className="etiqueta-item"
-                            onClick={() => cargarEtiquetasPorTarea(etiqueta.idEtiqueta)}
+                            className={`etiqueta-item ${etiquetaSeleccionada === etiqueta.idEtiqueta ? 'seleccionada' : ''}`}
+                            onClick={() => {
+                                setEtiquetaSeleccionada(etiqueta.idEtiqueta);
+                                cargarEtiquetasPorTarea(etiqueta.idEtiqueta);
+                            }}
                         >
+
                             <span className="etiqueta-nombre">{etiqueta.nombre}</span>
                             <button
                                 className="btn-eliminar-etiqueta"
@@ -100,10 +109,12 @@ function ListarEtiquetas() {
                                                 <h4>{tarea.prioridad}</h4>
                                             </div>
                                             <p className="descripcion">{tarea.descripcion}</p>
-                                            <span>📅 {tarea.fechaLimite}</span>
-                                            <br />
-                                            <span>✅ {tarea.completada ? 'Completada' : 'Pendiente'}</span>
+                                            <div className="tarea-footer">
+                                                <span>📅 {tarea.fechaLimite}</span>
+                                                <span>✅ {tarea.completada ? 'Completada' : 'Pendiente'}</span>
+                                            </div>
                                         </li>
+
                                     ))
                                 ) : (
                                     <p>No hay tareas para esta etiqueta.</p>
@@ -127,7 +138,7 @@ function ListarEtiquetas() {
                 tarea={modalTarea.tarea}
                 onClose={cerrarModal}
                 onTareaGuardada={() => {
-           
+
                     cargarEtiquetasPorTarea(etiquetaSeleccionada);
                     cerrarModal();
                 }}

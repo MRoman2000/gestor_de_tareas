@@ -3,7 +3,7 @@
 }
 body {
   padding-top: 40px; 
-    background: linear-gradient(to bottom right, #e0d4fc, #cfe7ff);
+    background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
 }
 
 .App-logo {

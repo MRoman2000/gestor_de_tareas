@@ -27,36 +27,16 @@
 
 .modal-botones {
   display: flex;
-  gap: 1em;
-  justify-content: center
+  justify-content: center;
+  align-items: center;
 }
+
 
 .colorEtiqueta {
   height: 50px;
   border: none;
 }
 
-.btn-cancelar {
-  background-color: #8f0a00;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.btn-guardar {
-  background-color: #140655;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
 
 
 .modal-etiqueta form input {

@@ -18,15 +18,25 @@ export default function ListarTareas() {
 
     useEffect(() => {
         const titulo = searchParams.get("titulo");
-        if (titulo) {
-            cargarTareas({ titulo });
-        } else if (prioridad) {
-            cargarTareas({ prioridad });
-        } else {
-            cargarTareas();
-        }
+        const filtros = {};
+        if (titulo) filtros.titulo = titulo;
+        if (prioridad) filtros.prioridad = prioridad;
+
+        cargarTareas(filtros);
     }, [searchParams, prioridad]);
 
+
+    const handlePrioridadChange = (e) => {
+        const nuevaPrioridad = e.target.value;
+        setPrioridad(nuevaPrioridad);
+
+        const titulo = searchParams.get("titulo");
+        const nuevosParams = {};
+        if (titulo) nuevosParams.titulo = titulo;
+        if (nuevaPrioridad) nuevosParams.prioridad = nuevaPrioridad;
+
+        setSearchParams(nuevosParams);
+    };
 
     const cargarTareas = async (filtros = {}) => {
         try {
@@ -65,7 +75,9 @@ export default function ListarTareas() {
                 <select
                     className="filtro-prioridad"
                     value={prioridad}
-                    onChange={(e) => setPrioridad(e.target.value)}  >
+                    onChange={handlePrioridadChange}
+                    disabled={busqueda.trim() !== ""}
+                >
                     <option value="">Todas las prioridades</option>
                     <option value="Alta">Alta</option>
                     <option value="Media">Media</option>
@@ -83,7 +95,6 @@ export default function ListarTareas() {
                             <h2>{t.titulo}</h2>
                             <h4>{t.prioridad}</h4>
                         </div>
-
                         <p className="descripcion">{t.descripcion}</p>
                         <div className="etiquetas">
                             {t.etiquetas.map(et => (
@@ -93,10 +104,14 @@ export default function ListarTareas() {
                         <div className="tarea-footer">
                             <span>📅 {t.fechaLimite}</span>
                             <span>✅ {t.completada ? 'Completada' : 'Pendiente'}</span>
-                            <div className="menu-container">
+                            <div className="menu-container" >
                                 <button
                                     className="btn-menu"
-                                    onClick={(e) => { e.stopPropagation(); setTareaConMenu(t.idTarea); }}>⋮</button>
+                                    onClick={(e) => { e.stopPropagation(); setTareaConMenu(t.idTarea); }}
+
+                                >
+                                    ⋮
+                                </button>
                                 {tareaConMenu === t.idTarea && (
                                     <div className="menu-opciones" onClick={(e) => e.stopPropagation()}>
                                         <button onClick={() => {
