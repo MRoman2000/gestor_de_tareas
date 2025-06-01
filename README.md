@@ -37,12 +37,10 @@ Aplicación web para la **gestión de tareas** con soporte para **etiquetas**, *
 ![image](https://github.com/user-attachments/assets/5ca6522e-3ffc-4d04-98b5-8958aee44111)
 ![image](https://github.com/user-attachments/assets/1ab993ca-dd51-48c2-8792-4547208033b4)
 ![image](https://github.com/user-attachments/assets/7d380214-0142-4a6b-b74b-25fa2e611ea6)
+![image](https://github.com/user-attachments/assets/164a7e91-b34b-445d-9385-7a4b8e8a2983)
 
-
-### 🎨 Lista de tareas con etiquetas:
 
 📌 Autor
 Desarrollado por Roman
-
 💼 Formación: Desarrollo de Aplicaciones Multiplataforma
 
