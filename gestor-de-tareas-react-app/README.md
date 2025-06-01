@@ -37,5 +37,7 @@ Aplicación web para la **gestión de tareas** con soporte para **etiquetas**, *
 
 ### 🎨 Lista de tareas con etiquetas:
 
-```jsx
-<button style={{ backgroundColor: t.color }} className="btn-menu">⋮</button>
+📌 Autor
+Desarrollado por Roman
+💼 Formación: Desarrollo de Aplicaciones Multiplataforma
+
